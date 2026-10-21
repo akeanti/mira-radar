@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use MIRA, please cite it as below."
+title: "MIRA: a complete MIMO FMCW radar, from chirp to track"
+abstract: >-
+  An open-source FMCW radar simulator and signal processing chain in NumPy:
+  TDM-MIMO data cube simulation, range-Doppler processing, CFAR detection,
+  beamforming and MUSIC, DBSCAN clustering and extended Kalman filter
+  tracking, a bit-exact Verilog CFAR core, and an acoustic FMCW sonar using a
+  laptop's speaker and microphone.
+authors:
+  - family-names: Essamit
+    given-names: Elmehdi
+    affiliation: "École Hassania des Travaux Publics, Casablanca"
+repository-code: "https://github.com/akeanti/mira-radar"
+license: MIT
+version: 0.1.0
+date-released: "2026-10-21"
+keywords:
+  - radar
+  - FMCW
+  - MIMO
+  - signal processing
+  - CFAR
+  - MUSIC
+  - Kalman filter
+  - sonar
+  - FPGA

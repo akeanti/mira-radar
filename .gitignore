@@ -1,0 +1,20 @@
+__pycache__/
+*.egg-info/
+.pytest_cache/
+build/
+dist/
+.venv/
+venv/
+
+# simulation and synthesis outputs
+*.vcd
+*.vvp
+hdl/tb
+hdl/*.txt
+console.png
+mira.gif
+
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
