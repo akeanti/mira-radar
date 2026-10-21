@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Icarus Verilog
+        run: sudo apt-get update && sudo apt-get install -y iverilog
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Test
+        run: pytest -v
+        env:
+          MPLBACKEND: Agg
+
+  examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e .
+      - name: Run every example
+        env:
+          MPLBACKEND: Agg
+        run: for f in examples/*.py; do echo "== $f"; python "$f"; done
+      - name: Render the console
+        env:
+          MPLBACKEND: Agg
+        run: mira render --seconds 1 --out console.png
+
+  synth:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Yosys
+        run: sudo apt-get update && sudo apt-get install -y yosys
+      - name: Synthesise the CFAR core
+        run: |
+          yosys -q -p "read_verilog hdl/cfar_ca.v; synth_xilinx -family xc7 -top cfar_ca; tee -o xc7.txt stat"
+          yosys -q -p "read_verilog hdl/cfar_ca.v; synth_ice40 -top cfar_ca; tee -o ice40.txt stat"
+          cat xc7.txt ice40.txt
